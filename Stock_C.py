@@ -7,11 +7,8 @@ from collections import defaultdict
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-def get_sp500_tickers():
-    url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
-    table = pd.read_html(url, header=0)[0]
-    tickers = table[['Symbol', 'GICS Sector']].to_dict('records')
-    return tickers
+df = pd.read_excel('A.xlsx')
+tickers = df[['tickers', 'sector']].to_dict('records')
 
 @st.cache
 def fetch_stock_data(stock_ticker, period='100d', interval='1d'):
@@ -87,9 +84,8 @@ def plot_candlestick_chart(stock_ticker, period='3mo', interval='1d'):
 
 st.title("Stock Opportunity")
 st.write("Fetching S&P 500 stock tickers...")
-sp500_tickers = get_sp500_tickers()
 st.write("Analyzing stocks...")
-stocks_above_conditions, errors = find_stocks_above_conditions(sp500_tickers)
+stocks_above_conditions, errors = find_stocks_above_conditions(tickers)
 for error in errors:
     st.warning(error)  # Display the error messages outside the cached function
 
