@@ -5,5 +5,4 @@ yfinance==0.1.64
 ta==0.7.0
 plotly==5.5.0
 requests
-io
 openpyxl
