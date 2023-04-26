@@ -7,7 +7,7 @@ response = requests.get(github_url)
 excel_data = BytesIO(response.content)
 sheet_name = 'Sheet'
 data = pd.read_excel(excel_data, sheet_name=sheet_name, engine='openpyxl')
-tickers = data[['tickers', 'sector']].to_dict('records')
+tickers = data[['tickers', 'sector','name']].to_dict('records')
 
 
 import yfinance as yf
@@ -44,6 +44,7 @@ def find_stocks_above_conditions(stock_list):
     for stock_info in stock_list:
         stock = stock_info['tickers']
         sector = stock_info['sector']
+        name = stock_info['name']
         try:
             data = fetch_stock_data(stock)
             data = calculate_moving_average(data)
@@ -53,7 +54,7 @@ def find_stocks_above_conditions(stock_list):
                 data.iloc[-1]['Close'] > data.iloc[-1]['MovingAverage_20'] and
                 data.iloc[-1][f'MACD_5_26_9_MA_5'] > data.iloc[-1]['MACD_5_26_9']
             ):
-                stocks_above_conditions[sector].append(stock)
+                stocks_above_conditions[sector].append((stock, name))
         except Exception as e:
             error_messages.append(f"Error processing stock {stock}: {e}")
 
@@ -98,6 +99,8 @@ for error in errors:
 st.header("Stocks with the current price above the 20-day moving average and 5-day MACD line:")
 for sector, stocks in stocks_above_conditions.items():
     st.subheader(sector)
-    selected_stock = st.selectbox(f"Select a stock from {sector}", stocks)
-    candlestick_chart = plot_candlestick_chart(selected_stock)
+    selected_stock = st.selectbox(f"Select a stock from {sector}", stocks, format_func=lambda x: f"{x[1]} ({x[0]})")
+    st.write(f"Selected stock: {selected_stock[1]} ({selected_stock[0]})")
+    candlestick_chart = plot_candlestick_chart(selected_stock[0])
     st.plotly_chart(candlestick_chart)
+
