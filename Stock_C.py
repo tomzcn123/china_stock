@@ -9,7 +9,8 @@ from plotly.subplots import make_subplots
 import requests
 from io import BytesIO
 
-github_url = 'https://github.com/tomzcn123/china_stock/blob/main/A.xlsx'
+github_url = 'https://raw.githubusercontent.com/tomzcn123/china_stock/main/A.xlsx'
+
 
 # Download the Excel file
 response = requests.get(github_url)
