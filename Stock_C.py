@@ -6,9 +6,29 @@ import lxml
 from collections import defaultdict
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import requests
+from io import BytesIO
 
+github_url = 'https://raw.githubusercontent.com/your_github_username/your_repository_name/main/your_excel_file.xlsx'
+
+# Download the Excel file
+response = requests.get(github_url)
+
+# Check if the download was successful
+if response.status_code == 200:
+    excel_data = BytesIO(response.content)
+    sheet_name = 'Sheet1'  # Replace 'Sheet1' with the name of the sheet containing the data
+
+    # Read the Excel file
+    data = pd.read_excel(excel_data, sheet_name=sheet_name, engine='openpyxl')
+    df = pd.read_excel('A.xlsx')
+    tickers = df[['tickers', 'sector']].to_dict('records')
+else:
+    print("Error: Unable to download the Excel file.")
+    
 df = pd.read_excel('A.xlsx')
 tickers = df[['tickers', 'sector']].to_dict('records')
+
 
 @st.cache
 def fetch_stock_data(stock_ticker, period='100d', interval='1d'):
