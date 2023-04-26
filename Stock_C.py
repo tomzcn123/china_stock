@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import BytesIO
-git add requirements.txt
-git commit -m "Update requirements.txt"
-git push
+
 
 
 github_url = 'https://raw.githubusercontent.com/tomzcn123/china_stock/main/A.xlsx'
