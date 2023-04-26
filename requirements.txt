@@ -6,3 +6,4 @@ ta==0.7.0
 plotly==5.5.0
 requests
 openpyxl
+click>=7.0,<8.0
