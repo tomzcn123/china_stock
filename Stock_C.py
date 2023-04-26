@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import BytesIO
+python -m pip install --upgrade pip
+pip install click==7.1.2 protobuf==3.20.1
+
 
 github_url = 'https://raw.githubusercontent.com/tomzcn123/china_stock/main/A.xlsx'
 response = requests.get(github_url)
