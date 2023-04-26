@@ -42,8 +42,8 @@ def find_stocks_above_conditions(stock_list):
     stocks_above_conditions = defaultdict(list)
     error_messages = []
     for stock_info in stock_list:
-        stock = stock_info['Symbol']
-        sector = stock_info['GICS Sector']
+        stock = stock_info['tickers']
+        sector = stock_info['sector']
         try:
             data = fetch_stock_data(stock)
             data = calculate_moving_average(data)
