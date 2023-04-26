@@ -6,4 +6,4 @@ ta==0.7.0
 plotly==5.5.0
 requests
 openpyxl
-tempfile
+
